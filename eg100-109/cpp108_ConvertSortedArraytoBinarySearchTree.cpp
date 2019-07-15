@@ -1,6 +1,8 @@
 #include <stdio.h>
 
 #include <vector>
+
+using namespace std;
 struct TreeNode {
 	int val;
 	TreeNode *left;
@@ -52,6 +54,17 @@ public:
 		}
 		return node_vec[0];
     }
+   TreeNode* sortedArrayToBSTII(vector<int>& nums) {
+        return helper(nums, 0 , (int)nums.size() - 1);
+    }
+    TreeNode* helper(vector<int>& nums, int left, int right) {
+        if (left > right) return NULL;
+        int mid = left + (right - left) / 2;
+        TreeNode *cur = new TreeNode(nums[mid]);
+        cur->left = helper(nums, left, mid - 1);
+        cur->right = helper(nums, mid + 1, right);
+        return cur;
+    }
 };
 
 
@@ -76,6 +89,8 @@ int main(){
 	Solution solve;
 	TreeNode *root = solve.sortedArrayToBST(nums);
 	preorder_print(root, 0);
+	TreeNode *res = solve.sortedArrayToBSTII(nums);
+	preorder_print(res, 0);
 	return 0;
 }
 

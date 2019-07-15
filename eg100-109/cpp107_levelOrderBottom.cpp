@@ -1,4 +1,5 @@
 
+#include<vector>
 #include<queue>
 #include<iostream>
 
@@ -6,37 +7,34 @@ using namespace std;
 
 struct TreeNode {
 	int val;
-	TreeNode *right;
 	TreeNode *left;
-	TreeNode(int x):val(x),right(NULL),left(NULL){}
+	TreeNode *right;
+	TreeNode(int x): val(x),left(NULL),right(NULL) {}
 };
 
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
+    vector<vector<int> > levelOrderBottom(TreeNode* root) {
         if (!root) 
-			return 0;
-        return 1 + max(maxDepth(root->left), maxDepth(root->right));
-    }
-    int maxDepthOrder(TreeNode* root) {
-        if (!root) 
-        	return 0;
-        int res = 0;
+        	return {};
+        vector<vector<int> > res;
         queue<TreeNode*> q;//{{root}};
-		q.push(root);
+        q.push(root);
         while (!q.empty()) {
-            ++res;
+            vector<int> oneLevel;
             for (int i = q.size(); i > 0; --i) {
                 TreeNode *t = q.front(); 
                 q.pop();
+                oneLevel.push_back(t->val);
                 if (t->left) 
                 	q.push(t->left);
                 if (t->right) 
                 	q.push(t->right);
             }
+            res.insert(res.begin(), oneLevel);
         }
         return res;
-    }    
+    }
 };
 
 int main() {
@@ -45,14 +43,20 @@ int main() {
 	TreeNode c(3);
 	TreeNode d(4);
 	TreeNode e(5);
+	TreeNode f(6);
 	Solution solve;
 	a.left = &b;
 	a.right = &c;
 	b.left = &d;
-	d.right = &e;
-
-	cout << "maxDepth is: " << solve.maxDepth(&a) << endl ;
-	cout << "maxDepth is: " << solve.maxDepthOrder(&a) << endl ;
-
-	return 0;
+	b.right = &e;
+	c.left = &f;
+	vector<vector<int> > res;
+	res = solve.levelOrderBottom(&a);
+	for(int i=0; i<res.size(); i++){
+		for(int j=0; j< res[i].size(); j++){
+			cout << " " << res[i][j];
+		}
+		cout << endl;
+	}
+	return 0; 
 }
