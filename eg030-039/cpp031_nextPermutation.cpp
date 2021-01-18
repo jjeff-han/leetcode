@@ -18,6 +18,9 @@ public:
     }
 };
 
+
+//just for test
+
 int main(){
 	Solution solve;
 	int a[] = {1,2,7,4,3,1};
